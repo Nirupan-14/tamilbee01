@@ -6,8 +6,7 @@ const UserDashboard: React.FC = () => {
   const stats = [
     { title: 'Total Events', value: 12, icon: Calendar, change: '+3 this month', changeType: 'positive' as const },
     { title: 'Active Businesses', value: 4, icon: Briefcase, change: '+1 this month', changeType: 'positive' as const },
-    { title: 'Total Views', value: '2.4K', icon: TrendingUp, change: '+12% from last month', changeType: 'positive' as const },
-    { title: 'Followers', value: 89, icon: Users, change: '+5 this week', changeType: 'positive' as const },
+    
   ];
 
   return (

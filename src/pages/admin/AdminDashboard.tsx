@@ -12,7 +12,7 @@ const AdminDashboard: React.FC = () => {
     { title: 'Total Users', value: totalUsers, icon: Users, change: '+2 this week', changeType: 'positive' as const },
     { title: 'Total Events', value: totalEvents, icon: Calendar, change: '+5 this month', changeType: 'positive' as const },
     { title: 'Pending Approvals', value: pendingApprovals, icon: Clock, change: 'Needs review', changeType: 'neutral' as const },
-    { title: 'Growth Rate', value: '18%', icon: TrendingUp, change: '+3% from last month', changeType: 'positive' as const },
+    
   ];
 
   return (

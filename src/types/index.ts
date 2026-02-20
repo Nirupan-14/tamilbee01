@@ -62,3 +62,33 @@ export interface SubscriptionPlan {
   features: string[];
   highlighted: boolean;
 }
+
+export interface Payment {
+  id: string;
+  userId: string;
+  amount: number;
+  date: string;
+  status: 'paid' | 'pending';
+}
+
+export interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  phone?: string;
+  city?: string;
+  address?: string;
+  blocked?: boolean;
+  createdAt?: string;
+}
+
+export interface Payment {
+  id: string;
+  userId: string;
+  amount: number;
+  date: string;
+  status: "paid" | "pending";
+}
+

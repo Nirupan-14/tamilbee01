@@ -19,6 +19,9 @@ import UserManagement from "@/pages/admin/UserManagement";
 import TermsConditions from "@/pages/TermsConditions";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import NotFound from "@/pages/NotFound";
+import AdminBusinessManagement from "./pages/admin/AdminBusinessManagement";
+import AdminPaymentManagement from "./pages/admin/AdminPaymentManagement";
+import AdminSubscriptionManagement from "./pages/admin/AdminSubscriptionManagement";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +51,11 @@ const App = () => (
               <Route path="/dashboard/admin" element={<DashboardLayout><AdminDashboard /></DashboardLayout>} />
               <Route path="/dashboard/admin/moderation" element={<DashboardLayout><EventModeration /></DashboardLayout>} />
               <Route path="/dashboard/admin/users" element={<DashboardLayout><UserManagement /></DashboardLayout>} />
+              <Route path="/dashboard/admin/business" element={<DashboardLayout><AdminBusinessManagement /></DashboardLayout>} />
+              <Route path="/dashboard/admin/payments" element={<DashboardLayout><AdminPaymentManagement /></DashboardLayout>} />
+              <Route path="/dashboard/admin/subscriptions" element={<DashboardLayout><AdminSubscriptionManagement /></DashboardLayout>} />
+
+
 
               <Route path="*" element={<NotFound />} />
             </Routes>

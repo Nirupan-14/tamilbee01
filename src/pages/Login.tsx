@@ -43,7 +43,7 @@ const Login: React.FC = () => {
         </h1>
 
         <p className="text-sm text-gray-400 mt-3 tracking-wide">
-          Event Management Platform
+          Event & Business Management Platform
         </p>
 
       </div>

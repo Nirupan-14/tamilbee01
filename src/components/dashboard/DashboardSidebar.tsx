@@ -9,7 +9,6 @@ import {
   ShieldCheck,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -19,6 +18,9 @@ interface SidebarProps {
   onMobileClose?: () => void;
 }
 
+/* ===============================
+   USER LINKS
+================================= */
 const userLinks = [
   { to: '/dashboard/user', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/dashboard/user/events', label: 'Events', icon: Calendar },
@@ -26,15 +28,22 @@ const userLinks = [
   { to: '/dashboard/user/subscription', label: 'Subscription', icon: CreditCard },
 ];
 
+/* ===============================
+   ADMIN LINKS
+================================= */
 const adminLinks = [
   { to: '/dashboard/admin', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/dashboard/admin/moderation', label: 'Event Moderation', icon: ShieldCheck },
   { to: '/dashboard/admin/users', label: 'User Management', icon: Users },
+  { to: '/dashboard/admin/business', label: 'Business Management', icon: Briefcase },
+  { to: '/dashboard/admin/subscriptions', label: 'Subscription Management', icon: CreditCard },
+  { to: '/dashboard/admin/payments', label: 'Payment Management', icon: CreditCard },
 ];
 
 const DashboardSidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, onMobileClose }) => {
   const { user } = useAuth();
   const location = useLocation();
+
   const links = user?.role === 'admin' ? adminLinks : userLinks;
 
   return (
@@ -43,28 +52,47 @@ const DashboardSidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, onMobil
         collapsed ? 'w-16' : 'w-64'
       }`}
     >
-      {/* Logo */}
-<div className="flex items-center gap-3 px-4 h-16 border-b border-sidebar-border bg-[#3E4041] m-2 rounded-lg shadow-md">
-  {/* Optional Icon / Placeholder */}
-  <div className="w-8 h-8 rounded-full bg-[#E3A03F] flex items-center justify-center">
-    <span className="text-white font-bold">TB</span>
-  </div>
+      {/* ===============================
+          DESKTOP LOGO
+      =============================== */}
+      <div className="hidden lg:flex items-center gap-3 px-4 h-14 border-b border-sidebar-border bg-[#3E4041] m-2 rounded-lg shadow-md">
+        <div className="w-8 h-8 rounded-full bg-[#E3A03F] flex items-center justify-center">
+          <span className="text-white font-bold text-sm">TB</span>
+        </div>
 
-  {/* Text Logo */}
-  {!collapsed && (
-    <h1 className="font-extrabold text-xl tracking-tight flex items-center gap-1">
-      <span className="text-white">Tamil</span>
-      <span className="text-[#E3C32F]">Bee</span>
-    </h1>
-  )}
-</div>
+        {!collapsed && (
+          <h1 className="font-extrabold text-xl tracking-tight flex items-center gap-1">
+            <span className="text-white">Tamil</span>
+            <span className="text-[#E3C32F]">Bee</span>
+          </h1>
+        )}
+      </div>
 
+      {/* ===============================
+          MOBILE LOGO
+      =============================== */}
+      <div className="flex lg:hidden items-center justify-between px-4 h-14 border-b border-sidebar-border bg-[#3E4041] m-2 rounded-lg shadow-md">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-[#E3A03F] flex items-center justify-center">
+            <span className="text-white font-bold text-sm">TB</span>
+          </div>
+          <span className="text-white font-bold text-base">TamilBee</span>
+        </div>
+        <button
+          onClick={onToggle}
+          className="p-2 rounded-lg text-white hover:bg-[#E3C32F]/20"
+        >
+          {collapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
+        </button>
+      </div>
 
-
-      {/* Nav Links */}
+      {/* ===============================
+          NAVIGATION LINKS
+      =============================== */}
       <nav className="flex-1 py-4 space-y-1 px-2">
         {links.map((link) => {
           const active = location.pathname === link.to;
+
           return (
             <Link
               key={link.to}
@@ -76,14 +104,21 @@ const DashboardSidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, onMobil
                   : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
               }`}
             >
-              <link.icon className={`w-5 h-5 flex-shrink-0 ${active ? 'text-sidebar-primary' : ''}`} />
+              <link.icon
+                className={`w-5 h-5 flex-shrink-0 ${
+                  active ? 'text-sidebar-primary' : ''
+                }`}
+              />
+
               {!collapsed && <span>{link.label}</span>}
             </Link>
           );
         })}
       </nav>
 
-      {/* Collapse Toggle (desktop only) */}
+      {/* ===============================
+          COLLAPSE BUTTON (DESKTOP)
+      =============================== */}
       <div className="hidden lg:flex border-t border-sidebar-border p-2">
         <button
           onClick={onToggle}

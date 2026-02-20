@@ -11,6 +11,8 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       overlay: false,
     },
+    // 🔹 ADD THIS:
+    historyApiFallback: true, // ensures SPA fallback
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {

@@ -1,4 +1,5 @@
-import { User, EventItem, Business, SubscriptionPlan } from '@/types';
+import { User, EventItem, Business, SubscriptionPlan, Payment } from "@/types";
+
 
 export const mockUsers: User[] = [
   { id: '1', firstName: 'Alice', lastName: 'Johnson', email: 'alice@example.com', role: 'user', phone: '+1 555-0101', city: 'New York', address: '123 Main St', blocked: false, createdAt: '2024-01-15' },
@@ -38,4 +39,53 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     features: ['Unlimited events', 'Advanced analytics', 'Priority support', 'Featured listing', 'Custom branding', 'API access', 'Team collaboration'],
     highlighted: true,
   },
+];
+
+export const mockPayments: Payment[] = [
+  {
+    id: '1',
+    userId: '1',
+    amount: 29,
+    date: '2025-01-15',
+    status: 'paid',
+  },
+  {
+    id: '2',
+    userId: '2',
+    amount: 29,
+    date: '2025-02-10',
+    status: 'pending',
+  },
+  {
+    id: '3',
+    userId: '3',
+    amount: 0,
+    date: '2025-03-01',
+    status: 'paid',
+  },
+  {
+    id: '4',
+    userId: '4',
+    amount: 29,
+    date: '2025-03-20',
+    status: 'pending',
+  },
+];
+
+
+export interface SubscribedUser {
+  id: string;
+  userId: string;
+  planId: string;
+  status: 'active' | 'inactive';
+  startDate: string;
+  endDate: string;
+}
+
+export const mockSubscribedUsers: SubscribedUser[] = [
+  { id: '1', userId: '1', planId: 'premium', status: 'active', startDate: '2025-01-01', endDate: '2025-01-31' },
+  { id: '2', userId: '2', planId: 'free', status: 'active', startDate: '2025-02-01', endDate: 'forever' },
+  { id: '3', userId: '3', planId: 'premium', status: 'inactive', startDate: '2024-12-01', endDate: '2024-12-31' },
+  { id: '4', userId: '4', planId: 'premium', status: 'active', startDate: '2025-03-01', endDate: '2025-03-31' },
+  { id: '5', userId: '5', planId: 'premium', status: 'inactive', startDate: '2024-11-01', endDate: '2024-11-30' },
 ];

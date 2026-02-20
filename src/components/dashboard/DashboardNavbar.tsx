@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, Moon, Sun, LogOut, User as UserIcon, ChevronDown } from 'lucide-react';
+import { Menu, Moon, Sun, LogOut, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
-import { useState, useRef, useEffect } from 'react';
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -33,16 +32,34 @@ const DashboardNavbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
 
   return (
     <header className="h-16 border-b border-border bg-card flex items-center justify-between px-4 lg:px-6">
-      <button
-        onClick={onMenuClick}
-        className="lg:hidden p-2 rounded-lg text-foreground hover:bg-muted transition-colors"
-      >
-        <Menu className="w-5 h-5" />
-      </button>
 
-      <div className="flex-1" />
+      {/* LEFT SIDE */}
+      <div className="flex items-center gap-3">
 
+        {/* Mobile Menu Button */}
+        <button
+          onClick={onMenuClick}
+          className="lg:hidden p-2 rounded-lg text-foreground hover:bg-muted transition-colors"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+
+        {/* TamilBee Logo - MOBILE ONLY */}
+        <div
+          className="flex items-center gap-2 cursor-pointer lg:hidden"
+          onClick={() => navigate('/dashboard')}
+        >
+          <span className="font-bold text-base tracking-tight">
+            <span className="text-foreground">Tamil</span>
+            <span className="text-[#E3C32F]">Bee</span>
+          </span>
+        </div>
+
+      </div>
+
+      {/* RIGHT SIDE */}
       <div className="flex items-center gap-2">
+
         {/* Dark Mode Toggle */}
         <button
           onClick={toggle}
@@ -61,21 +78,28 @@ const DashboardNavbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
             <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center text-primary-foreground text-sm font-semibold">
               {user?.firstName?.[0]}{user?.lastName?.[0]}
             </div>
+
             <span className="hidden sm:block text-sm font-medium text-foreground">
               {user?.firstName} {user?.lastName}
             </span>
+
             <ChevronDown className="w-4 h-4 text-muted-foreground" />
           </button>
 
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-56 bg-card border border-border rounded-xl shadow-lg py-1 z-50 animate-fade-in">
               <div className="px-4 py-3 border-b border-border">
-                <p className="text-sm font-medium text-foreground">{user?.firstName} {user?.lastName}</p>
-                <p className="text-xs text-muted-foreground">{user?.email}</p>
+                <p className="text-sm font-medium text-foreground">
+                  {user?.firstName} {user?.lastName}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {user?.email}
+                </p>
                 <span className="inline-block mt-1 text-xs font-medium px-2 py-0.5 rounded-full bg-accent text-accent-foreground capitalize">
                   {user?.role}
                 </span>
               </div>
+
               <button
                 onClick={handleLogout}
                 className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-destructive hover:bg-muted transition-colors"
@@ -86,7 +110,9 @@ const DashboardNavbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
             </div>
           )}
         </div>
+
       </div>
+
     </header>
   );
 };
