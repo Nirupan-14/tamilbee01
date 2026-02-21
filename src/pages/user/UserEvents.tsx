@@ -45,8 +45,9 @@ const DIRECTORIES = [
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type EventLink = { id: string; label: string; url: string };
-type RichEvent = EventItem & { extraLinks?: EventLink[] };
+type EventStatus = 'pending' | 'approved' | 'rejected';
+type EventLink   = { id: string; label: string; url: string };
+type RichEvent   = EventItem & { status?: EventStatus; extraLinks?: EventLink[] };
 
 // ─── Seed ─────────────────────────────────────────────────────────────────────
 
@@ -59,7 +60,7 @@ const emptyEvent: Omit<RichEvent, 'EventID'> = {
   Event: '', EventDate: '', Link: '', Image: '',
   RegionId: 0, CategoryId: 0, DirectoryId: 0,
   Venue: '', Contact: '', CityId: 0, CountryId: 0,
-  DefaultImg: '', extraLinks: [],
+  DefaultImg: '', extraLinks: [], status: 'pending',
 };
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
@@ -99,6 +100,8 @@ const SelectField: React.FC<{
   </div>
 );
 
+// ─── Badges ───────────────────────────────────────────────────────────────────
+
 const CategoryBadge: React.FC<{ categoryId: number }> = ({ categoryId }) => {
   const styles: Record<number, { label: string; style: string }> = {
     1: { label: 'General',  style: 'bg-muted text-muted-foreground' },
@@ -116,6 +119,19 @@ const CategoryBadge: React.FC<{ categoryId: number }> = ({ categoryId }) => {
   );
 };
 
+const StatusBadge: React.FC<{ status?: EventStatus }> = ({ status = 'pending' }) => {
+  const map: Record<EventStatus, string> = {
+    approved: 'bg-green-500/10 text-green-600',
+    pending:  'bg-yellow-500/10 text-yellow-600',
+    rejected: 'bg-destructive/10 text-destructive',
+  };
+  return (
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${map[status]}`}>
+      {status}
+    </span>
+  );
+};
+
 // ─── Main Component ────────────────────────────────────────────────────────────
 
 const UserEvents: React.FC = () => {
@@ -128,7 +144,7 @@ const UserEvents: React.FC = () => {
   const [deleteId, setDeleteId]         = useState<number | null>(null);
   const [imagePreview, setImagePreview] = useState('');
   const [search, setSearch]             = useState('');
-  const [activeCategory, setActiveCategory] = useState(0); // 0 = All
+  const [activeCategory, setActiveCategory] = useState(0);
 
   // ── Filtered list ─────────────────────────────────────────────────────────
 
@@ -288,7 +304,7 @@ const UserEvents: React.FC = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border bg-muted/30">
-                  {['Name', 'Date', 'Venue', 'Region', 'City', 'Category', 'Actions'].map(h => (
+                  {['Name', 'Date', 'Venue', 'Region', 'City', 'Category', 'Status', 'Actions'].map(h => (
                     <th key={h}
                       className={`px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider
                         ${['Region', 'City'].includes(h) ? 'hidden lg:table-cell' : ''}
@@ -312,6 +328,8 @@ const UserEvents: React.FC = () => {
                     <td className="px-4 py-3 text-sm text-muted-foreground hidden lg:table-cell">{labelFor(REGIONS, ev.RegionId)}</td>
                     <td className="px-4 py-3 text-sm text-muted-foreground hidden lg:table-cell">{labelFor(CITIES, ev.CityId)}</td>
                     <td className="px-4 py-3"><CategoryBadge categoryId={ev.CategoryId} /></td>
+                    {/* ── Status column ── */}
+                    <td className="px-4 py-3"><StatusBadge status={ev.status} /></td>
                     <td className="px-4 py-3 text-right">
                       <div className="flex items-center justify-end gap-1">
                         <button onClick={() => setViewItem(ev)} title="View"
@@ -348,12 +366,17 @@ const UserEvents: React.FC = () => {
                 }
               </div>
 
-              <div className="flex items-start justify-between mb-3">
+              <div className="flex items-start justify-between mb-2">
                 <div>
                   <h3 className="font-semibold text-foreground leading-tight">{ev.Event}</h3>
                   <span className="text-xs text-muted-foreground">ID: {ev.EventID}</span>
                 </div>
                 <CategoryBadge categoryId={ev.CategoryId} />
+              </div>
+
+              {/* ── Status badge ── */}
+              <div className="mb-3">
+                <StatusBadge status={ev.status} />
               </div>
 
               <div className="space-y-1.5 text-sm text-muted-foreground flex-1">
@@ -452,6 +475,12 @@ const UserEvents: React.FC = () => {
                 <dd><CategoryBadge categoryId={viewItem.CategoryId} /></dd>
               </div>
 
+              {/* ── Status row ── */}
+              <div className="flex gap-2 items-center">
+                <dt className="font-semibold text-foreground w-28 shrink-0">Status:</dt>
+                <dd><StatusBadge status={viewItem.status} /></dd>
+              </div>
+
               {viewItem.Link && (
                 <div className="flex gap-2">
                   <dt className="font-semibold text-foreground w-28 shrink-0">Main Link:</dt>
@@ -500,35 +529,29 @@ const UserEvents: React.FC = () => {
 
             <form onSubmit={handleSave} className="space-y-5">
 
-              {/* Event name */}
               <InputField label="Event Name" value={form.Event}
                 onChange={v => update('Event', v)} placeholder="e.g. Tech Conference 2025" />
 
-              {/* Date & Time | Main Link */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <InputField label="Date & Time" type="datetime-local" value={form.EventDate} onChange={v => update('EventDate', v)} />
                 <InputField label="Main Event Link" value={form.Link} onChange={v => update('Link', v)} placeholder="https://example.com" required={false} />
               </div>
 
-              {/* Region | City */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <SelectField label="Region" value={form.RegionId} onChange={v => update('RegionId', v)} options={REGIONS} placeholder="Select a region" />
                 <SelectField label="City"   value={form.CityId}   onChange={v => update('CityId', v)}   options={CITIES}   placeholder="Select a city" />
               </div>
 
-              {/* Category | Directory */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <SelectField label="Category"  value={form.CategoryId}  onChange={v => update('CategoryId', v)}  options={CATEGORIES}  placeholder="Select a category" />
                 <SelectField label="Directory" value={form.DirectoryId} onChange={v => update('DirectoryId', v)} options={DIRECTORIES} placeholder="Select a directory" />
               </div>
 
-              {/* Venue | Contact */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <InputField label="Venue"   value={form.Venue}   onChange={v => update('Venue', v)}   placeholder="Convention Center" />
                 <InputField label="Contact" value={form.Contact} onChange={v => update('Contact', v)} placeholder="email@example.com" />
               </div>
 
-              {/* Country ID */}
               <InputField label="Country ID" type="number" value={form.CountryId}
                 onChange={v => update('CountryId', Number(v))} placeholder="e.g. 94" />
 
@@ -538,9 +561,7 @@ const UserEvents: React.FC = () => {
                   <label className="block text-sm font-medium text-foreground">
                     Additional Links
                     {(form.extraLinks || []).length > 0 && (
-                      <span className="ml-2 text-xs text-muted-foreground">
-                        ({(form.extraLinks || []).length})
-                      </span>
+                      <span className="ml-2 text-xs text-muted-foreground">({(form.extraLinks || []).length})</span>
                     )}
                   </label>
                   <button type="button" onClick={addLink}
@@ -603,7 +624,6 @@ const UserEvents: React.FC = () => {
                 </label>
               </div>
 
-              {/* Actions */}
               <div className="flex justify-end gap-3 pt-2">
                 <button type="button" onClick={() => setFormOpen(false)}
                   className="px-4 py-2 rounded-lg border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors">
@@ -619,7 +639,6 @@ const UserEvents: React.FC = () => {
         </div>
       )}
 
-      {/* ── Delete Confirm ── */}
       <ConfirmModal
         open={deleteId !== null}
         title="Delete Event"

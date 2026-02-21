@@ -71,7 +71,12 @@ export const mockUsers: User[] = [
 
 // ───────────────── EVENTS ─────────────────
 
-export const mockEvents: EventItem[] = [
+
+
+// Add this status field to your EventItem type:
+// status?: 'pending' | 'approved' | 'rejected';
+
+export const mockEvents = [
   {
     EventID: 1,
     Event: 'Tech Conference 2025',
@@ -85,7 +90,8 @@ export const mockEvents: EventItem[] = [
     Contact: 'tech@example.com',
     CityId: 1,
     CountryId: 94,
-    DefaultImg: 'https://images.unsplash.com/photo-1515169067868-5387ec356754'
+    DefaultImg: 'https://images.unsplash.com/photo-1515169067868-5387ec356754',
+    status: 'approved',
   },
   {
     EventID: 2,
@@ -100,7 +106,8 @@ export const mockEvents: EventItem[] = [
     Contact: 'music@example.com',
     CityId: 2,
     CountryId: 94,
-    DefaultImg: 'https://images.unsplash.com/photo-1518972559570-7cc1309f3229'
+    DefaultImg: 'https://images.unsplash.com/photo-1518972559570-7cc1309f3229',
+    status: 'pending',
   },
   {
     EventID: 3,
@@ -115,7 +122,8 @@ export const mockEvents: EventItem[] = [
     Contact: 'food@example.com',
     CityId: 3,
     CountryId: 94,
-    DefaultImg: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352'
+    DefaultImg: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352',
+    status: 'approved',
   },
   {
     EventID: 4,
@@ -130,7 +138,8 @@ export const mockEvents: EventItem[] = [
     Contact: 'art@example.com',
     CityId: 4,
     CountryId: 94,
-    DefaultImg: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e'
+    DefaultImg: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e',
+    status: 'rejected',
   },
   {
     EventID: 5,
@@ -145,8 +154,9 @@ export const mockEvents: EventItem[] = [
     Contact: 'startup@example.com',
     CityId: 5,
     CountryId: 94,
-    DefaultImg: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f'
-  }
+    DefaultImg: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f',
+    status: 'pending',
+  },
 ];
 
 
