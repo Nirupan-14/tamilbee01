@@ -1,11 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { mockEvents } from '@/data/mockData';
-import { EventItem } from '@/types';
 import ConfirmModal from '@/components/shared/ConfirmModal';
 import {
   Plus, Pencil, Trash2, LayoutGrid, List, X,
   Upload, MapPin, Clock, Eye, Link as LinkIcon,
-  Phone, Globe, Search,
+  Phone, Globe, Search, CheckCircle, XCircle, AlertCircle,
 } from 'lucide-react';
 
 // ─── Static lookup data ────────────────────────────────────────────────────────
@@ -45,9 +43,37 @@ const DIRECTORIES = [
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type EventStatus = 'pending' | 'approved' | 'rejected';
-type EventLink   = { id: string; label: string; url: string };
-type RichEvent   = EventItem & { status?: EventStatus; extraLinks?: EventLink[] };
+export type EventStatus = 'pending' | 'approved' | 'rejected';
+
+export interface EventItem {
+  EventID: number;
+  Event: string;
+  EventDate: string;
+  Link: string;
+  Image: string;
+  RegionId: number;
+  CategoryId: number;
+  DirectoryId: number;
+  Venue: string;
+  Contact: string;
+  CityId: number;
+  CountryId: number;
+  DefaultImg: string;
+  status: EventStatus; // ← NEW
+}
+
+type EventLink = { id: string; label: string; url: string };
+type RichEvent = EventItem & { extraLinks?: EventLink[] };
+
+// ─── Mock Data (inline) ───────────────────────────────────────────────────────
+
+const mockEvents: EventItem[] = [
+  { EventID: 1, Event: 'Tech Conference 2025', EventDate: '2025-03-15T09:00:00', Link: 'https://techconf.com', Image: '', RegionId: 1, CategoryId: 2, DirectoryId: 1, Venue: 'Convention Center', Contact: 'tech@example.com', CityId: 1, CountryId: 94, DefaultImg: 'default.jpg', status: 'approved' },
+  { EventID: 2, Event: 'Music Festival', EventDate: '2025-04-20T14:00:00', Link: 'https://musicfest.com', Image: '', RegionId: 2, CategoryId: 3, DirectoryId: 2, Venue: 'Sunset Park', Contact: 'music@example.com', CityId: 2, CountryId: 94, DefaultImg: 'default.jpg', status: 'pending' },
+  { EventID: 3, Event: 'Food & Wine Expo', EventDate: '2025-05-10T11:00:00', Link: 'https://foodexpo.com', Image: '', RegionId: 3, CategoryId: 4, DirectoryId: 3, Venue: 'McCormick Place', Contact: 'food@example.com', CityId: 3, CountryId: 94, DefaultImg: 'default.jpg', status: 'approved' },
+  { EventID: 4, Event: 'Art Gallery Opening', EventDate: '2025-06-01T18:00:00', Link: 'https://artgallery.com', Image: '', RegionId: 4, CategoryId: 5, DirectoryId: 4, Venue: 'Modern Art Museum', Contact: 'art@example.com', CityId: 4, CountryId: 94, DefaultImg: 'default.jpg', status: 'rejected' },
+  { EventID: 5, Event: 'Startup Pitch Night', EventDate: '2025-07-08T19:00:00', Link: 'https://startuppitch.com', Image: '', RegionId: 2, CategoryId: 6, DirectoryId: 5, Venue: 'Innovation Hub', Contact: 'startup@example.com', CityId: 5, CountryId: 94, DefaultImg: 'default.jpg', status: 'pending' },
+];
 
 // ─── Seed ─────────────────────────────────────────────────────────────────────
 
@@ -60,13 +86,43 @@ const emptyEvent: Omit<RichEvent, 'EventID'> = {
   Event: '', EventDate: '', Link: '', Image: '',
   RegionId: 0, CategoryId: 0, DirectoryId: 0,
   Venue: '', Contact: '', CityId: 0, CountryId: 0,
-  DefaultImg: '', extraLinks: [], status: 'pending',
+  DefaultImg: '', extraLinks: [],
+  status: 'pending', // new events start as pending
 };
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
 const labelFor = (list: { id: number; label: string }[], id: number, fallback = '—') =>
   list.find(i => i.id === id)?.label ?? fallback;
+
+// ─── Status Badge ──────────────────────────────────────────────────────────────
+
+const StatusBadge: React.FC<{ status: EventStatus }> = ({ status }) => {
+  const config: Record<EventStatus, { label: string; style: string; icon: React.ReactNode }> = {
+    pending:  {
+      label: 'Pending',
+      style: 'bg-amber-500/10 text-amber-600 border-amber-200',
+      icon: <AlertCircle className="w-3 h-3" />,
+    },
+    approved: {
+      label: 'Approved',
+      style: 'bg-emerald-500/10 text-emerald-600 border-emerald-200',
+      icon: <CheckCircle className="w-3 h-3" />,
+    },
+    rejected: {
+      label: 'Rejected',
+      style: 'bg-red-500/10 text-red-500 border-red-200',
+      icon: <XCircle className="w-3 h-3" />,
+    },
+  };
+  const { label, style, icon } = config[status];
+  return (
+    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}>
+      {icon}
+      {label}
+    </span>
+  );
+};
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
 
@@ -100,8 +156,6 @@ const SelectField: React.FC<{
   </div>
 );
 
-// ─── Badges ───────────────────────────────────────────────────────────────────
-
 const CategoryBadge: React.FC<{ categoryId: number }> = ({ categoryId }) => {
   const styles: Record<number, { label: string; style: string }> = {
     1: { label: 'General',  style: 'bg-muted text-muted-foreground' },
@@ -119,19 +173,6 @@ const CategoryBadge: React.FC<{ categoryId: number }> = ({ categoryId }) => {
   );
 };
 
-const StatusBadge: React.FC<{ status?: EventStatus }> = ({ status = 'pending' }) => {
-  const map: Record<EventStatus, string> = {
-    approved: 'bg-green-500/10 text-green-600',
-    pending:  'bg-yellow-500/10 text-yellow-600',
-    rejected: 'bg-destructive/10 text-destructive',
-  };
-  return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${map[status]}`}>
-      {status}
-    </span>
-  );
-};
-
 // ─── Main Component ────────────────────────────────────────────────────────────
 
 const UserEvents: React.FC = () => {
@@ -145,14 +186,16 @@ const UserEvents: React.FC = () => {
   const [imagePreview, setImagePreview] = useState('');
   const [search, setSearch]             = useState('');
   const [activeCategory, setActiveCategory] = useState(0);
+  const [statusFilter, setStatusFilter] = useState<EventStatus | 'all'>('all');
 
   // ── Filtered list ─────────────────────────────────────────────────────────
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
     return events.filter(ev => {
-      const matchCat = activeCategory === 0 || ev.CategoryId === activeCategory;
-      if (!matchCat) return false;
+      const matchCat    = activeCategory === 0 || ev.CategoryId === activeCategory;
+      const matchStatus = statusFilter === 'all' || ev.status === statusFilter;
+      if (!matchCat || !matchStatus) return false;
       if (!q) return true;
       return (
         ev.Event.toLowerCase().includes(q) ||
@@ -160,12 +203,22 @@ const UserEvents: React.FC = () => {
         new Date(ev.EventDate).toLocaleDateString().includes(q) ||
         ev.Venue.toLowerCase().includes(q) ||
         ev.Contact.toLowerCase().includes(q) ||
+        ev.status.toLowerCase().includes(q) ||
         labelFor(CITIES,      ev.CityId).toLowerCase().includes(q) ||
         labelFor(REGIONS,     ev.RegionId).toLowerCase().includes(q) ||
         labelFor(CATEGORIES,  ev.CategoryId).toLowerCase().includes(q)
       );
     });
-  }, [events, search, activeCategory]);
+  }, [events, search, activeCategory, statusFilter]);
+
+  // ── Status counts ──────────────────────────────────────────────────────────
+
+  const statusCounts = useMemo(() => ({
+    all:      events.length,
+    pending:  events.filter(e => e.status === 'pending').length,
+    approved: events.filter(e => e.status === 'approved').length,
+    rejected: events.filter(e => e.status === 'rejected').length,
+  }), [events]);
 
   // ── Actions ──────────────────────────────────────────────────────────────────
 
@@ -182,7 +235,7 @@ const UserEvents: React.FC = () => {
     if (editing) {
       setEvents(prev => prev.map(ev => ev.EventID === editing.EventID ? { ...ev, ...form } : ev));
     } else {
-      setEvents(prev => [...prev, { ...form, EventID: Date.now() } as RichEvent]);
+      setEvents(prev => [...prev, { ...form, EventID: Date.now(), status: 'pending' } as RichEvent]);
     }
     setFormOpen(false);
   };
@@ -255,12 +308,34 @@ const UserEvents: React.FC = () => {
         </div>
       </div>
 
+      {/* ── Status summary cards ── */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {(
+          [
+            { key: 'all',      label: 'All Events', color: 'text-foreground',     bg: 'bg-muted/40' },
+            { key: 'pending',  label: 'Pending',    color: 'text-amber-600',      bg: 'bg-amber-500/10' },
+            { key: 'approved', label: 'Approved',   color: 'text-emerald-600',    bg: 'bg-emerald-500/10' },
+            { key: 'rejected', label: 'Rejected',   color: 'text-red-500',        bg: 'bg-red-500/10' },
+          ] as const
+        ).map(({ key, label, color, bg }) => (
+          <button
+            key={key}
+            onClick={() => setStatusFilter(key)}
+            className={`glass-card p-4 text-left transition-all hover-lift ${statusFilter === key ? 'ring-2 ring-ring' : ''}`}
+          >
+            <p className={`text-2xl font-bold ${color}`}>{statusCounts[key]}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{label}</p>
+            <div className={`mt-2 h-1 rounded-full ${bg}`} />
+          </button>
+        ))}
+      </div>
+
       {/* ── Search ── */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <input
           type="text" value={search} onChange={e => setSearch(e.target.value)}
-          placeholder="Search by name, ID, date, venue, city, region, category…"
+          placeholder="Search by name, ID, date, venue, city, region, category, status…"
           className="w-full pl-9 pr-10 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring placeholder:text-muted-foreground"
         />
         {search && (
@@ -374,7 +449,7 @@ const UserEvents: React.FC = () => {
                 <CategoryBadge categoryId={ev.CategoryId} />
               </div>
 
-              {/* ── Status badge ── */}
+              {/* ── Status badge in card ── */}
               <div className="mb-3">
                 <StatusBadge status={ev.status} />
               </div>
@@ -440,11 +515,26 @@ const UserEvents: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-foreground/20 backdrop-blur-sm" onClick={() => setViewItem(null)} />
           <div className="relative bg-card border border-border rounded-xl shadow-xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto animate-fade-in">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-foreground">{viewItem.Event}</h2>
               <button onClick={() => setViewItem(null)} className="text-muted-foreground hover:text-foreground">
                 <X className="w-5 h-5" />
               </button>
+            </div>
+
+            {/* Status banner in view modal */}
+            <div className="mb-5 flex items-center gap-2 px-3 py-2.5 rounded-lg border border-border bg-muted/30">
+              <span className="text-sm font-medium text-foreground">Status:</span>
+              <StatusBadge status={viewItem.status} />
+              {viewItem.status === 'pending' && (
+                <span className="ml-auto text-xs text-muted-foreground">Awaiting review</span>
+              )}
+              {viewItem.status === 'approved' && (
+                <span className="ml-auto text-xs text-emerald-600">Your event is live</span>
+              )}
+              {viewItem.status === 'rejected' && (
+                <span className="ml-auto text-xs text-red-500">Contact support for details</span>
+              )}
             </div>
 
             {viewItem.Image && (
@@ -475,12 +565,6 @@ const UserEvents: React.FC = () => {
                 <dd><CategoryBadge categoryId={viewItem.CategoryId} /></dd>
               </div>
 
-              {/* ── Status row ── */}
-              <div className="flex gap-2 items-center">
-                <dt className="font-semibold text-foreground w-28 shrink-0">Status:</dt>
-                <dd><StatusBadge status={viewItem.status} /></dd>
-              </div>
-
               {viewItem.Link && (
                 <div className="flex gap-2">
                   <dt className="font-semibold text-foreground w-28 shrink-0">Main Link:</dt>
@@ -492,7 +576,6 @@ const UserEvents: React.FC = () => {
               )}
             </dl>
 
-            {/* Extra links section */}
             {(viewItem.extraLinks || []).length > 0 && (
               <div className="mt-5 pt-4 border-t border-border">
                 <p className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
@@ -624,6 +707,16 @@ const UserEvents: React.FC = () => {
                 </label>
               </div>
 
+              {/* Status note for new events */}
+              {!editing && (
+                <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-lg bg-amber-500/10 border border-amber-200">
+                  <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                  <p className="text-xs text-amber-700">
+                    New events are submitted with <strong>Pending</strong> status and will be reviewed before going live.
+                  </p>
+                </div>
+              )}
+
               <div className="flex justify-end gap-3 pt-2">
                 <button type="button" onClick={() => setFormOpen(false)}
                   className="px-4 py-2 rounded-lg border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors">
@@ -639,6 +732,7 @@ const UserEvents: React.FC = () => {
         </div>
       )}
 
+      {/* ── Delete Confirm ── */}
       <ConfirmModal
         open={deleteId !== null}
         title="Delete Event"

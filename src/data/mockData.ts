@@ -1,88 +1,22 @@
-// ───────────────── USERS ─────────────────
+
 
 export const mockUsers: User[] = [
-  {
-    id: '1',
-    firstName: 'Alice',
-    lastName: 'Johnson',
-    email: 'alice@example.com',
-    role: 'user',
-    phone: '+1 555-0101',
-    city: 'New York',
-    address: '123 Main St',
-    avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
-    blocked: false,
-    createdAt: '2024-01-15',
-  },
-  {
-    id: '2',
-    firstName: 'Bob',
-    lastName: 'Smith',
-    email: 'bob@example.com',
-    role: 'user',
-    phone: '+1 555-0102',
-    city: 'Los Angeles',
-    address: '456 Oak Ave',
-    avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
-    blocked: false,
-    createdAt: '2024-02-20',
-  },
-  {
-    id: '3',
-    firstName: 'Carol',
-    lastName: 'Williams',
-    email: 'carol@example.com',
-    role: 'user',
-    phone: '+1 555-0103',
-    city: 'Chicago',
-    address: '789 Pine Rd',
-    avatar: 'https://randomuser.me/api/portraits/women/3.jpg',
-    blocked: true,
-    createdAt: '2024-03-10',
-  },
-  {
-    id: '4',
-    firstName: 'David',
-    lastName: 'Brown',
-    email: 'david@example.com',
-    role: 'user',
-    phone: '+1 555-0104',
-    city: 'Houston',
-    address: '321 Elm St',
-    avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
-    blocked: false,
-    createdAt: '2024-04-05',
-  },
-  {
-    id: '5',
-    firstName: 'Eve',
-    lastName: 'Davis',
-    email: 'eve@example.com',
-    role: 'admin',
-    phone: '+1 555-0105',
-    city: 'Phoenix',
-    address: '654 Maple Dr',
-    avatar: 'https://randomuser.me/api/portraits/women/5.jpg',
-    blocked: false,
-    createdAt: '2024-05-12',
-  },
+  { id: '1', firstName: 'Alice', lastName: 'Johnson', email: 'alice@example.com', role: 'user', phone: '+1 555-0101', city: 'New York', address: '123 Main St', blocked: false, createdAt: '2024-01-15' },
+  { id: '2', firstName: 'Bob', lastName: 'Smith', email: 'bob@example.com', role: 'user', phone: '+1 555-0102', city: 'Los Angeles', address: '456 Oak Ave', blocked: false, createdAt: '2024-02-20' },
+  { id: '3', firstName: 'Carol', lastName: 'Williams', email: 'carol@example.com', role: 'user', phone: '+1 555-0103', city: 'Chicago', address: '789 Pine Rd', blocked: true, createdAt: '2024-03-10' },
+  { id: '4', firstName: 'David', lastName: 'Brown', email: 'david@example.com', role: 'user', phone: '+1 555-0104', city: 'Houston', address: '321 Elm St', blocked: false, createdAt: '2024-04-05' },
+  { id: '5', firstName: 'Eve', lastName: 'Davis', email: 'eve@example.com', role: 'admin', phone: '+1 555-0105', city: 'Phoenix', address: '654 Maple Dr', blocked: false, createdAt: '2024-05-12' },
 ];
 
 
-// ───────────────── EVENTS ─────────────────
 
-
-
-// Add this status field to your EventItem type:
-// status?: 'pending' | 'approved' | 'rejected';
-
-export const mockEvents = [
+export const mockEvents: EventItem[] = [
   {
     EventID: 1,
     Event: 'Tech Conference 2025',
     EventDate: '2025-03-15T09:00:00',
     Link: 'https://techconf.com',
-    Image: 'https://images.unsplash.com/photo-1503428593586-e225b39bddfe',
+    Image: 'techconf.jpg',
     RegionId: 1,
     CategoryId: 2,
     DirectoryId: 1,
@@ -90,15 +24,14 @@ export const mockEvents = [
     Contact: 'tech@example.com',
     CityId: 1,
     CountryId: 94,
-    DefaultImg: 'https://images.unsplash.com/photo-1515169067868-5387ec356754',
-    status: 'approved',
+    DefaultImg: 'default.jpg'
   },
   {
     EventID: 2,
     Event: 'Music Festival',
     EventDate: '2025-04-20T14:00:00',
     Link: 'https://musicfest.com',
-    Image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30',
+    Image: 'musicfest.jpg',
     RegionId: 2,
     CategoryId: 3,
     DirectoryId: 2,
@@ -106,15 +39,14 @@ export const mockEvents = [
     Contact: 'music@example.com',
     CityId: 2,
     CountryId: 94,
-    DefaultImg: 'https://images.unsplash.com/photo-1518972559570-7cc1309f3229',
-    status: 'pending',
+    DefaultImg: 'default.jpg'
   },
   {
     EventID: 3,
     Event: 'Food & Wine Expo',
     EventDate: '2025-05-10T11:00:00',
     Link: 'https://foodexpo.com',
-    Image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
+    Image: 'foodexpo.jpg',
     RegionId: 3,
     CategoryId: 4,
     DirectoryId: 3,
@@ -122,15 +54,14 @@ export const mockEvents = [
     Contact: 'food@example.com',
     CityId: 3,
     CountryId: 94,
-    DefaultImg: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352',
-    status: 'approved',
+    DefaultImg: 'default.jpg'
   },
   {
     EventID: 4,
     Event: 'Art Gallery Opening',
     EventDate: '2025-06-01T18:00:00',
     Link: 'https://artgallery.com',
-    Image: 'https://images.unsplash.com/photo-1492724441997-5dc865305da7',
+    Image: 'artgallery.jpg',
     RegionId: 4,
     CategoryId: 5,
     DirectoryId: 4,
@@ -138,15 +69,14 @@ export const mockEvents = [
     Contact: 'art@example.com',
     CityId: 4,
     CountryId: 94,
-    DefaultImg: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e',
-    status: 'rejected',
+    DefaultImg: 'default.jpg'
   },
   {
     EventID: 5,
     Event: 'Startup Pitch Night',
     EventDate: '2025-07-08T19:00:00',
     Link: 'https://startuppitch.com',
-    Image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df',
+    Image: 'startup.jpg',
     RegionId: 2,
     CategoryId: 6,
     DirectoryId: 5,
@@ -154,13 +84,9 @@ export const mockEvents = [
     Contact: 'startup@example.com',
     CityId: 5,
     CountryId: 94,
-    DefaultImg: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f',
-    status: 'pending',
-  },
+    DefaultImg: 'default.jpg'
+  }
 ];
-
-
-// ───────────────── BUSINESSES ─────────────────
 
 export const mockBusinesses: Business[] = [
   {
@@ -186,7 +112,7 @@ export const mockBusinesses: Business[] = [
     instagramLink: '',
     moreInfo: 'Est. 2010',
     htmlContent: '',
-    posterUrl: 'https://images.unsplash.com/photo-1492724441997-5dc865305da7',
+    posterUrl: '',
     status: 'Approved'
   },
   {
@@ -212,17 +138,179 @@ export const mockBusinesses: Business[] = [
     instagramLink: 'https://instagram.com/designhub',
     moreInfo: '',
     htmlContent: '',
-    posterUrl: 'https://images.unsplash.com/photo-1492724441997-5dc865305da7',
+    posterUrl: '',
+    status: 'Pending'
+  },
+  {
+    id: '3',
+    title: 'Green Foods',
+    company: 'EcoFoods Ltd.',
+    contact: 'Emily Green',
+    addressLine1: '50 Organic Way',
+    cityId: 'SF',
+    provinceId: 'CA',
+    postcode: '94105',
+    telephone: '+1 415-555-0300',
+    mobile: '+1 415-555-0301',
+    fax: '',
+    email: 'contact@ecofoods.com',
+    website: 'https://ecofoods.com',
+    description: 'Organic and eco-friendly food supplier.',
+    category: 'Food & Beverage',
+    youtubeLink: '',
+    facebookLink: 'https://facebook.com/ecofoods',
+    twitterLink: '',
+    linkedinLink: 'https://linkedin.com/company/ecofoods',
+    instagramLink: 'https://instagram.com/ecofoods',
+    moreInfo: 'Serving organic foods since 2012',
+    htmlContent: '',
+    posterUrl: '',
+    status: 'Approved'
+  },
+  {
+    id: '4',
+    title: 'Fitness World',
+    company: 'HealthPro Gym',
+    contact: 'Michael Lee',
+    addressLine1: '300 Fitness St',
+    cityId: 'Chicago',
+    provinceId: 'IL',
+    postcode: '60601',
+    telephone: '+1 312-555-0400',
+    mobile: '+1 312-555-0401',
+    fax: '',
+    email: 'info@healthpro.com',
+    website: 'https://healthpro.com',
+    description: 'Premium fitness and wellness center.',
+    category: 'Health & Fitness',
+    youtubeLink: '',
+    facebookLink: 'https://facebook.com/healthpro',
+    twitterLink: 'https://twitter.com/healthpro',
+    linkedinLink: '',
+    instagramLink: 'https://instagram.com/healthpro',
+    moreInfo: 'Opened 2015',
+    htmlContent: '',
+    posterUrl: '',
+    status: 'Pending'
+  },
+  {
+    id: '5',
+    title: 'EduTech Academy',
+    company: 'SmartLearn Inc.',
+    contact: 'Sarah Johnson',
+    addressLine1: '400 Knowledge Rd',
+    cityId: 'Boston',
+    provinceId: 'MA',
+    postcode: '02101',
+    telephone: '+1 617-555-0500',
+    mobile: '+1 617-555-0501',
+    fax: '',
+    email: 'contact@smartlearn.com',
+    website: 'https://smartlearn.com',
+    description: 'Innovative tech education academy.',
+    category: 'Education',
+    youtubeLink: 'https://youtube.com/smartlearn',
+    facebookLink: 'https://facebook.com/smartlearn',
+    twitterLink: '',
+    linkedinLink: 'https://linkedin.com/company/smartlearn',
+    instagramLink: '',
+    moreInfo: 'Online & Offline courses',
+    htmlContent: '',
+    posterUrl: '',
+    status: 'Approved'
+  },
+  {
+    id: '6',
+    title: 'Fashion Hub',
+    company: 'StyleWorks Ltd.',
+    contact: 'Anna Brown',
+    addressLine1: '150 Fashion Ave',
+    cityId: 'Miami',
+    provinceId: 'FL',
+    postcode: '33101',
+    telephone: '+1 305-555-0600',
+    mobile: '+1 305-555-0601',
+    fax: '',
+    email: 'info@styleworks.com',
+    website: 'https://styleworks.com',
+    description: 'Trendy fashion brand and retail store.',
+    category: 'Fashion & Lifestyle',
+    youtubeLink: '',
+    facebookLink: 'https://facebook.com/styleworks',
+    twitterLink: 'https://twitter.com/styleworks',
+    linkedinLink: '',
+    instagramLink: 'https://instagram.com/styleworks',
+    moreInfo: 'Founded 2018',
+    htmlContent: '',
+    posterUrl: '',
     status: 'Pending'
   }
 ];
 
-
-// ───────────────── PAYMENTS ─────────────────
+export const subscriptionPlans: SubscriptionPlan[] = [
+  {
+    id: 'free',
+    name: 'Free',
+    price: 0,
+    period: 'forever',
+    features: ['Up to 5 events', 'Basic analytics', 'Email support', 'Standard listing'],
+    highlighted: false,
+  },
+  {
+    id: 'premium',
+    name: 'Premium',
+    price: 29,
+    period: 'month',
+    features: ['Unlimited events', 'Advanced analytics', 'Priority support', 'Featured listing', 'Custom branding', 'API access', 'Team collaboration'],
+    highlighted: true,
+  },
+];
 
 export const mockPayments: Payment[] = [
-  { id: '1', userId: '1', amount: 29, date: '2025-01-15', status: 'paid' },
-  { id: '2', userId: '2', amount: 29, date: '2025-02-10', status: 'pending' },
-  { id: '3', userId: '3', amount: 0,  date: '2025-03-01', status: 'paid' },
-  { id: '4', userId: '4', amount: 29, date: '2025-03-20', status: 'pending' },
+  {
+    id: '1',
+    userId: '1',
+    amount: 29,
+    date: '2025-01-15',
+    status: 'paid',
+  },
+  {
+    id: '2',
+    userId: '2',
+    amount: 29,
+    date: '2025-02-10',
+    status: 'pending',
+  },
+  {
+    id: '3',
+    userId: '3',
+    amount: 0,
+    date: '2025-03-01',
+    status: 'paid',
+  },
+  {
+    id: '4',
+    userId: '4',
+    amount: 29,
+    date: '2025-03-20',
+    status: 'pending',
+  },
+];
+
+
+export interface SubscribedUser {
+  id: string;
+  userId: string;
+  planId: string;
+  status: 'active' | 'inactive';
+  startDate: string;
+  endDate: string;
+}
+
+export const mockSubscribedUsers: SubscribedUser[] = [
+  { id: '1', userId: '1', planId: 'premium', status: 'active', startDate: '2025-01-01', endDate: '2025-01-31' },
+  { id: '2', userId: '2', planId: 'free', status: 'active', startDate: '2025-02-01', endDate: 'forever' },
+  { id: '3', userId: '3', planId: 'premium', status: 'inactive', startDate: '2024-12-01', endDate: '2024-12-31' },
+  { id: '4', userId: '4', planId: 'premium', status: 'active', startDate: '2025-03-01', endDate: '2025-03-31' },
+  { id: '5', userId: '5', planId: 'premium', status: 'inactive', startDate: '2024-11-01', endDate: '2024-11-30' },
 ];
