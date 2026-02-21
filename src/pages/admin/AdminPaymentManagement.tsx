@@ -73,8 +73,6 @@ const AdminPaymentManagement: React.FC = () => {
     total:   payments.length,
     paid:    payments.filter(p => p.status === 'paid').length,
     pending: payments.filter(p => p.status === 'pending').length,
-    failed:  payments.filter(p => p.status === 'failed').length,
-    revenue: payments.filter(p => p.status === 'paid').reduce((s, p) => s + p.amount, 0),
   };
 
   // ── Actions ──────────────────────────────────────────────────────────────
@@ -119,12 +117,11 @@ const AdminPaymentManagement: React.FC = () => {
       </div>
 
       {/* ── Stat chips ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-3 gap-3">
         {[
-          { label: 'Total',    value: counts.total,              style: 'text-foreground' },
-          { label: 'Paid',     value: counts.paid,               style: 'text-green-600' },
-          { label: 'Pending',  value: counts.pending,            style: 'text-yellow-600' },
-          { label: 'Revenue',  value: `$${counts.revenue.toLocaleString()}`, style: 'text-primary' },
+          { label: 'Total',   value: counts.total,   style: 'text-foreground' },
+          { label: 'Paid',    value: counts.paid,    style: 'text-green-600' },
+          { label: 'Pending', value: counts.pending, style: 'text-yellow-600' },
         ].map(s => (
           <div key={s.label} className="glass-card p-4 text-center">
             <p className={`text-2xl font-bold ${s.style}`}>{s.value}</p>
