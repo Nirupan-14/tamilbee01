@@ -26,6 +26,7 @@ export interface EventItem {
   posterUrl?: string;
   status: 'pending' | 'approved' | 'rejected';
   createdBy: string;
+  
 }
 
 export interface Business {
@@ -52,6 +53,7 @@ export interface Business {
   moreInfo: string;
   htmlContent: string;
   posterUrl?: string;
+  status: 'Pending' | 'Approved' | 'Rejected';
 }
 
 export interface SubscriptionPlan {
