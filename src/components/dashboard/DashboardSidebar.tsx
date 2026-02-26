@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   ChevronLeft,
   ChevronRight,
+  Settings,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -26,6 +27,7 @@ const userLinks = [
   { to: '/dashboard/user/events', label: 'Events', icon: Calendar },
   { to: '/dashboard/user/business', label: 'Business', icon: Briefcase },
   { to: '/dashboard/user/subscription', label: 'Subscription', icon: CreditCard },
+  
 ];
 
 /* ===============================
@@ -38,6 +40,7 @@ const adminLinks = [
   { to: '/dashboard/admin/business', label: 'Business Management', icon: Briefcase },
   { to: '/dashboard/admin/subscriptions', label: 'Subscription Management', icon: CreditCard },
   { to: '/dashboard/admin/payments', label: 'Payment Management', icon: CreditCard },
+  { to: '/dashboard/admin/settings', label: 'Settings', icon: Settings },
 ];
 
 const DashboardSidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, onMobileClose }) => {

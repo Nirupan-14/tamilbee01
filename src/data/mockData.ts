@@ -24,7 +24,8 @@ export const mockEvents: EventItem[] = [
     Contact: 'tech@example.com',
     CityId: 1,
     CountryId: 94,
-    DefaultImg: 'default.jpg'
+    DefaultImg: 'default.jpg',
+    userId: '1',
   },
   {
     EventID: 2,
@@ -39,7 +40,8 @@ export const mockEvents: EventItem[] = [
     Contact: 'music@example.com',
     CityId: 2,
     CountryId: 94,
-    DefaultImg: 'default.jpg'
+    DefaultImg: 'default.jpg',
+    userId: '2',
   },
   {
     EventID: 3,
@@ -54,7 +56,8 @@ export const mockEvents: EventItem[] = [
     Contact: 'food@example.com',
     CityId: 3,
     CountryId: 94,
-    DefaultImg: 'default.jpg'
+    DefaultImg: 'default.jpg',
+    userId: '3',
   },
   {
     EventID: 4,
@@ -69,7 +72,8 @@ export const mockEvents: EventItem[] = [
     Contact: 'art@example.com',
     CityId: 4,
     CountryId: 94,
-    DefaultImg: 'default.jpg'
+    DefaultImg: 'default.jpg',
+    userId: '4'
   },
   {
     EventID: 5,
@@ -84,7 +88,8 @@ export const mockEvents: EventItem[] = [
     Contact: 'startup@example.com',
     CityId: 5,
     CountryId: 94,
-    DefaultImg: 'default.jpg'
+    DefaultImg: 'default.jpg',
+    userId: '3'
   }
 ];
 
@@ -113,7 +118,8 @@ export const mockBusinesses: Business[] = [
     moreInfo: 'Est. 2010',
     htmlContent: '',
     posterUrl: '',
-    status: 'Approved'
+    status: 'Approved',
+    userId: '1'
   },
   {
     id: '2',
@@ -139,7 +145,8 @@ export const mockBusinesses: Business[] = [
     moreInfo: '',
     htmlContent: '',
     posterUrl: '',
-    status: 'Pending'
+    status: 'Pending',
+    userId: '2'
   },
   {
     id: '3',
@@ -164,8 +171,9 @@ export const mockBusinesses: Business[] = [
     instagramLink: 'https://instagram.com/ecofoods',
     moreInfo: 'Serving organic foods since 2012',
     htmlContent: '',
-    posterUrl: '',
-    status: 'Approved'
+    posterUrl: '' ,
+    status: 'Approved',
+    userId: '3'
   },
   {
     id: '4',
@@ -191,7 +199,8 @@ export const mockBusinesses: Business[] = [
     moreInfo: 'Opened 2015',
     htmlContent: '',
     posterUrl: '',
-    status: 'Pending'
+    status: 'Pending',
+    userId: '4'
   },
   {
     id: '5',
@@ -217,7 +226,8 @@ export const mockBusinesses: Business[] = [
     moreInfo: 'Online & Offline courses',
     htmlContent: '',
     posterUrl: '',
-    status: 'Approved'
+    status: 'Approved',
+    userId: '1'
   },
   {
     id: '6',
@@ -243,7 +253,8 @@ export const mockBusinesses: Business[] = [
     moreInfo: 'Founded 2018',
     htmlContent: '',
     posterUrl: '',
-    status: 'Pending'
+    status: 'Pending',
+    userId: '2'
   }
 ];
 

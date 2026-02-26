@@ -10,8 +10,6 @@ const Signup: React.FC = () => {
     lastName: '',
     email: '',
     password: '',
-    address: '',
-    city: '',
     phone: '',
   });
 
@@ -29,38 +27,32 @@ const Signup: React.FC = () => {
   };
 
   return (
-     <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#3E4041] via-[#2f3132] to-[#1f2021]">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#3E4041] via-[#2f3132] to-[#1f2021]">
 
-  {/* Center Content */}
-  <div className="flex-1 flex items-center justify-center p-4">
-    <div className="w-full max-w-md">
+      {/* Center Content */}
+      <div className="flex-1 flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
 
-      {/* Professional Logo */}
-      <div className="flex flex-col items-center mb-12">
+          {/* Logo */}
+          <div className="flex flex-col items-center mb-12">
+            <h1 className="text-5xl font-extrabold tracking-wide relative">
+              <span className="text-white">Tamil</span>
+              <span className="text-[#E3C32F] relative">
+                Bee
+                <span className="absolute -bottom-2 left-0 w-full h-1 bg-[#E3C32F] rounded-full"></span>
+              </span>
+            </h1>
 
-        <h1 className="text-5xl font-extrabold tracking-wide relative">
-          <span className="text-white">Tamil</span>
-          <span className="text-[#E3C32F] relative">
-            Bee
-            <span className="absolute -bottom-2 left-0 w-full h-1 bg-[#E3C32F] rounded-full"></span>
-          </span>
-        </h1>
-
-        <p className="text-sm text-gray-400 mt-3 tracking-wide">
-          Event & Business Management Platform
-        </p>
-        </div>
+            <p className="text-sm text-gray-400 mt-3 tracking-wide">
+              Event & Business Management Platform
+            </p>
+          </div>
 
           {/* Card */}
           <div className="bg-white p-8 rounded-xl shadow-2xl">
-
-            <h2 className="text-2xl font-bold text-[#3E4041] text-center">
+            <h2 className="text-2xl font-bold text-[#3E4041] text-center mb-6">
               Create Account
             </h2>
-
-            <p className="text-sm text-gray-500 text-center mt-1 mb-6">
-              Start managing your events
-            </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
 
@@ -131,59 +123,24 @@ const Signup: React.FC = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#E3C32F]"
                   >
-                    {showPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
 
-              {/* Address */}
+              {/* Phone */}
               <div>
                 <label className="block text-sm font-medium text-[#3E4041] mb-1.5">
-                  Address
+                  Phone
                 </label>
                 <input
                   type="text"
-                  value={form.address}
-                  onChange={(e) => update('address', e.target.value)}
+                  value={form.phone}
+                  onChange={(e) => update('phone', e.target.value)}
                   required
-                  placeholder="123 Main St"
+                  placeholder="+1 555-0100"
                   className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#E3C32F]"
                 />
-              </div>
-
-              {/* City + Phone */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-[#3E4041] mb-1.5">
-                    City
-                  </label>
-                  <input
-                    type="text"
-                    value={form.city}
-                    onChange={(e) => update('city', e.target.value)}
-                    required
-                    placeholder="New York"
-                    className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#E3C32F]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-[#3E4041] mb-1.5">
-                    Phone
-                  </label>
-                  <input
-                    type="text"
-                    value={form.phone}
-                    onChange={(e) => update('phone', e.target.value)}
-                    required
-                    placeholder="+1 555-0100"
-                    className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#E3C32F]"
-                  />
-                </div>
               </div>
 
               {/* Submit Button */}

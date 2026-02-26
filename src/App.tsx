@@ -22,6 +22,7 @@ import NotFound from "@/pages/NotFound";
 import AdminBusinessManagement from "./pages/admin/AdminBusinessManagement";
 import AdminPaymentManagement from "./pages/admin/AdminPaymentManagement";
 import AdminSubscriptionManagement from "./pages/admin/AdminSubscriptionManagement";
+import AdminSettings from "./pages/admin/AdminSettings";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +55,7 @@ const App = () => (
               <Route path="/dashboard/admin/business" element={<DashboardLayout><AdminBusinessManagement /></DashboardLayout>} />
               <Route path="/dashboard/admin/payments" element={<DashboardLayout><AdminPaymentManagement /></DashboardLayout>} />
               <Route path="/dashboard/admin/subscriptions" element={<DashboardLayout><AdminSubscriptionManagement /></DashboardLayout>} />
+              <Route path="/dashboard/admin/settings" element={<DashboardLayout><AdminSettings /></DashboardLayout>} />
 
 
 
